@@ -1,6 +1,7 @@
 package com.example.recipeapp.models;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 public class Recipe {
@@ -18,6 +19,9 @@ public class Recipe {
     private String destination;
     //todo add
     //private Difficulty difficulty;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
+    private Set<Ingredient> ingredientSet;
 
     @Lob // indicated that this is BLOB(Binary Large Object)
     private Byte[] image;
