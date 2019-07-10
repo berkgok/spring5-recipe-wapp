@@ -1,6 +1,7 @@
 package com.example.recipeapp.models;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -16,13 +17,15 @@ public class Recipe {
     private Integer servings;
     private String source;
     private String url;
-    private String destination;
+
+    @Lob
+    private String directions;
 
     @Enumerated(value = EnumType.STRING) // String will keep the values as string, ordinal will set index to each value
     private Difficulty difficulty;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
-    private Set<Ingredient> ingredientSet;
+    private Set<Ingredient> ingredientSet = new HashSet<>();
 
     @Lob // indicated that this is BLOB(Binary Large Object)
     private Byte[] image;
@@ -34,7 +37,7 @@ public class Recipe {
     @JoinTable(name = "recipe_category_join",
                 joinColumns = @JoinColumn(name = "recipe_id"),
                 inverseJoinColumns = @JoinColumn(name = "category_id"))
-    private Set<Category> categorySet;
+    private Set<Category> categorySet = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -92,12 +95,12 @@ public class Recipe {
         this.url = url;
     }
 
-    public String getDestination() {
-        return destination;
+    public String getDirections() {
+        return directions;
     }
 
-    public void setDestination(String destination) {
-        this.destination = destination;
+    public void setDirections(String directions) {
+        this.directions = directions;
     }
 
     public Difficulty getDifficulty() {
