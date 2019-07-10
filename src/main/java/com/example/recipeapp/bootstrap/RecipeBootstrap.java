@@ -98,21 +98,21 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
                 "Chilling tomatoes hurts their flavor, so if you want to add chopped tomato to your guacamole, add it just before serving.");
         guacamole.setDifficulty(Difficulty.EASY);
 
-        // adding ingredients for guacamole
-        guacamole.getIngredientSet().add(new Ingredient("ripe avocados", new BigDecimal(2), eachUnitOfMeasure, guacamole));
-        guacamole.getIngredientSet().add(new Ingredient("Kosher salt", new BigDecimal(".5"), teaSpoonUnitOfMeasure, guacamole));
-        guacamole.getIngredientSet().add(new Ingredient("fresh lime juice or lemon juice", new BigDecimal(2), tableSpoonUnitOfMeasure, guacamole));
-        guacamole.getIngredientSet().add(new Ingredient("minced red onion or thinly sliced green onion", new BigDecimal(2), tableSpoonUnitOfMeasure, guacamole));
-        guacamole.getIngredientSet().add(new Ingredient("serrano chiles, stems and seeds removed, minced", new BigDecimal(2), eachUnitOfMeasure, guacamole));
-        guacamole.getIngredientSet().add(new Ingredient("Cilantro", new BigDecimal(2), tableSpoonUnitOfMeasure, guacamole));
-        guacamole.getIngredientSet().add(new Ingredient("freshly grated black pepper", new BigDecimal(2), dashUnitOfMeasure, guacamole));
-        guacamole.getIngredientSet().add(new Ingredient("ripe tomato, seeds and pulp removed, chopped", new BigDecimal(".5"), eachUnitOfMeasure, guacamole));
+        // adding ingredients for guacamole (modified with addIngredient, old version was like this "guacamole.getIngredientSet().add(new Ingredient("ripe avocados", new BigDecimal(2), eachUnitOfMeasure, guacamole));")
+        guacamole.addIngredient(new Ingredient("ripe avocados", new BigDecimal(2), eachUnitOfMeasure));
+        guacamole.addIngredient(new Ingredient("Kosher salt", new BigDecimal(".5"), teaSpoonUnitOfMeasure));
+        guacamole.addIngredient(new Ingredient("fresh lime juice or lemon juice", new BigDecimal(2), tableSpoonUnitOfMeasure));
+        guacamole.addIngredient(new Ingredient("minced red onion or thinly sliced green onion", new BigDecimal(2), tableSpoonUnitOfMeasure));
+        guacamole.addIngredient(new Ingredient("serrano chiles, stems and seeds removed, minced", new BigDecimal(2), eachUnitOfMeasure));
+        guacamole.addIngredient(new Ingredient("Cilantro", new BigDecimal(2), tableSpoonUnitOfMeasure));
+        guacamole.addIngredient(new Ingredient("freshly grated black pepper", new BigDecimal(2), dashUnitOfMeasure));
+        guacamole.addIngredient(new Ingredient("ripe tomato, seeds and pulp removed, chopped", new BigDecimal(".5"), eachUnitOfMeasure));
 
         guacamole.setImage(null);
 
         // creating note for guacamole
         Note guacamoleNote = new Note();
-        guacamoleNote.setRecipe(guacamole);
+        // guacamoleNote.setRecipe(guacamole); no need since we dealt this issue in setNote method of recipe
         guacamoleNote.setRecipeNote("For a very quick guacamole just take a 1/4 cup of salsa and mix it in with your mashed avocados.\n" +
                 "\n" +
                 "Feel free to experiment! One classic Mexican guacamole has pomegranate seeds and chunks of peaches in it (a Diana Kennedy favorite). Try guacamole with added pineapple, mango, or strawberries (see our Strawberry Guacamole).\n" +
@@ -122,7 +122,7 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
                 "To extend a limited supply of avocados, add either sour cream or cottage cheese to your guacamole dip. Purists may be horrified, but so what? It tastes great.\n" +
                 "\n" +
                 "For a deviled egg version with guacamole, try our Guacamole Deviled Eggs!");
-        // setting note to guacamole
+        // adding the note to guacamole
         guacamole.setNote(guacamoleNote);
 
         guacamole.getCategorySet().add(mexicanCategory);

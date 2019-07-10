@@ -111,6 +111,12 @@ public class Recipe {
         this.difficulty = difficulty;
     }
 
+    public Recipe addIngredient(Ingredient ingredient) {
+        ingredient.setRecipe(this);
+        this.ingredientSet.add(ingredient);
+        return this;
+    }
+
     public Set<Ingredient> getIngredientSet() {
         return ingredientSet;
     }
@@ -132,7 +138,9 @@ public class Recipe {
     }
 
     public void setNote(Note note) {
+
         this.note = note;
+        note.setRecipe(this);
     }
 
     public Set<Category> getCategorySet() {
