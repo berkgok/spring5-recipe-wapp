@@ -22,7 +22,7 @@ public class RecipeServiceImplTest {
 
     @Before
     public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this); // this means give me a mock recipe repository
+        MockitoAnnotations.initMocks(this); // this means give me the mock classes to use in the test method, since this setUp method will trigger before every test method each test methods can access to mock classes
 
         recipeService = new RecipeServiceImpl(recipeRepository);
     }
@@ -41,7 +41,7 @@ public class RecipeServiceImplTest {
         // here is the calling of getRecipes() method so we will get recipesData as a return
         Set<Recipe> recipeSet = recipeService.getRecipes();
 
-        assertEquals(recipeSet.size(), 1);
+        assertEquals(1, recipeSet.size());
 
         // we can also verify the interactions, in this line we checked that findAll() method has invoked 1 times
         verify(recipeRepository, times(1)).findAll();
