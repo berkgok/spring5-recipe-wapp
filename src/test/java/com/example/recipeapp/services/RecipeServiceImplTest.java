@@ -1,17 +1,21 @@
 package com.example.recipeapp.services;
 
+import com.example.recipeapp.converters.RecipeCommandToRecipe;
+import com.example.recipeapp.converters.RecipeToRecipeCommand;
 import com.example.recipeapp.models.Recipe;
 import com.example.recipeapp.repositories.RecipeRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.*;
 
 public class RecipeServiceImplTest {
@@ -21,11 +25,17 @@ public class RecipeServiceImplTest {
     @Mock
     RecipeRepository recipeRepository;
 
+    @Mock
+    RecipeToRecipeCommand recipeToRecipeCommand;
+
+    @Mock
+    RecipeCommandToRecipe recipeCommandToRecipe;
+
     @Before
     public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this); // this means give me the mock classes to use in the test method, since this setUp method will trigger before every test method each test methods can access to mock classes
+        MockitoAnnotations.initMocks(this);
 
-        recipeService = new RecipeServiceImpl(recipeRepository);
+        recipeService = new RecipeServiceImpl(recipeRepository, recipeToRecipeCommand, recipeCommandToRecipe);
     }
 
     @Test
@@ -52,7 +62,6 @@ public class RecipeServiceImplTest {
 
         // when the getRecipes() method is called, return recipesData
         when(recipeService.getRecipes()).thenReturn(recipesData);
-
 
         // here is the calling of getRecipes() method so we will get recipesData as a return
         Set<Recipe> recipeSet = recipeService.getRecipes();
