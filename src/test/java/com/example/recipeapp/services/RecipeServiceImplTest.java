@@ -8,7 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -70,5 +69,19 @@ public class RecipeServiceImplTest {
 
         // we can also verify the interactions, in this line we checked that findAll() method has invoked 1 times
         verify(recipeRepository, times(1)).findAll();
+    }
+
+    @Test
+    public void deleteById() throws Exception {
+
+        // given
+        Long idToDelete = Long.valueOf(2L);
+
+        // when
+        recipeService.deleteById(idToDelete);
+
+        // then
+        verify(recipeRepository, times(1)).deleteById(anyLong());
+
     }
 }
