@@ -34,23 +34,15 @@ public class IngredientServiceImpl implements IngredientService {
 
         Optional<Recipe> recipeOptional = recipeRepository.findById(recipeId);
 
-        if (!recipeOptional.isPresent()) {
-            System.out.println("FLAG 1 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-        } else {
-            Recipe recipe = recipeOptional.get();
+        Recipe recipe = recipeOptional.get();
 
-            Optional<IngredientCommand> ingredientCommandOptional = recipe.getIngredientSet().stream()
-                    .filter(ingredient -> ingredient.getId().equals(ingredientId))
-                    .map(ingredientToIngredientCommand::convert).findFirst();
+        Optional<IngredientCommand> ingredientCommandOptional = recipe.getIngredientSet().stream()
+                .filter(ingredient -> ingredient.getId().equals(ingredientId))
+                .map(ingredientToIngredientCommand::convert).findFirst();
 
-            if (!ingredientCommandOptional.isPresent()) {
-                System.out.println("FLAG 2 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-            } else {
-                return ingredientCommandOptional.get();
-            }
-        }
-        return null;
+        return ingredientCommandOptional.get();
     }
+
 
     @Override
     @Transactional
@@ -99,6 +91,25 @@ public class IngredientServiceImpl implements IngredientService {
         return ingredientToIngredientCommand.convert(savedIngredientOptional.get());
     }
 
+    @Override
+    public void deleteById(Long recipeId, Long idToDelete) {
+
+        Optional<Recipe> recipeOptional = recipeRepository.findById(recipeId);
+        Recipe recipe = recipeOptional.get();
+
+        Optional<Ingredient> ingredientOptional = recipe
+                .getIngredientSet()
+                .stream()
+                .filter(ingredient -> ingredient.getId().equals(idToDelete))
+                .findFirst();
+
+        Ingredient ingredientToDelete = ingredientOptional.get();
+        ingredientToDelete.setRecipe(null);
+        recipe.getIngredientSet().remove(ingredientOptional.get());
+        recipeRepository.save(recipe);
+
+
+    }
 }
 
 

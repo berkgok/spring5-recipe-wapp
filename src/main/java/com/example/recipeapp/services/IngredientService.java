@@ -5,5 +5,6 @@ import com.example.recipeapp.commands.IngredientCommand;
 public interface IngredientService {
 
     IngredientCommand findByRecipeIdAndId(Long recipeId, Long id);
-    public IngredientCommand saveIngredientCommand(IngredientCommand command);
+    IngredientCommand saveIngredientCommand(IngredientCommand command);
+    void deleteById(Long recipeId, Long idToDelete);
 }
