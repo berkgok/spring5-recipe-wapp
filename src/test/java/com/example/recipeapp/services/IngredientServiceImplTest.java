@@ -49,11 +49,6 @@ public class IngredientServiceImplTest {
     }
 
     @Test
-    public void findByRecipeIdAndId() throws Exception {
-    }
-
-
-    @Test
     public void findByRecipeIdAndIdHappyPath() {
 
         // given
