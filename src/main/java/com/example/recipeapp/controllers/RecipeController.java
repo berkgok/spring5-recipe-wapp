@@ -50,11 +50,12 @@ public class RecipeController {
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(NotFoundException.class)
-    public ModelAndView handleNotFound(){
+    public ModelAndView handleNotFound(Exception exception){
 
         ModelAndView modelAndView = new ModelAndView();
 
         modelAndView.setViewName("404error"); // matches with our thymeleaf file name
+        modelAndView.addObject("exception", exception);
 
         return modelAndView;
 
