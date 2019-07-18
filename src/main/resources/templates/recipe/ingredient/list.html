@@ -47,7 +47,7 @@
                             </thead>
                             <tr th:each="ingredient : ${recipe.ingredientSet}">
                                 <td th:text="${ingredient.id}">Dummy ID</td>
-                                <td th:text="${ingredient.amount} + ' ' + ${ingredient.uom.getUom()} + ' ' + ${ingredient.description} + '/show'">Dummy ingredient</td>
+                                <td th:text="${ingredient.amount} + ' ' + ${ingredient.uom.getUom()} + ' ' + ${ingredient.description}">Dummy ingredient</td>
                                 <td><a href="#" th:href="@{'/recipe/' + ${recipe.id} + '/ingredient/' + ${ingredient.id} + '/show'}">View</a></td>
                                 <td><a href="#" th:href="@{'/recipe/' + ${recipe.id} + '/ingredient/' + ${ingredient.id} + '/update'}">Update</a></td>
                                 <td><a href="#" th:href="@{'/recipe/' + ${recipe.id} + '/ingredient/' + ${ingredient.id} + '/delete'}">Delete</a></td>
