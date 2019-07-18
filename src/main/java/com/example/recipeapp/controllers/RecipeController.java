@@ -1,10 +1,13 @@
 package com.example.recipeapp.controllers;
 
 import com.example.recipeapp.commands.RecipeCommand;
+import com.example.recipeapp.exceptions.NotFoundException;
 import com.example.recipeapp.services.RecipeService;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class RecipeController {
@@ -44,4 +47,17 @@ public class RecipeController {
         RecipeCommand savedCommand = recipeService.saveRecipeCommand(command);
         return "redirect:/recipe/" + savedCommand.getId() + "/show";
     }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(NotFoundException.class)
+    public ModelAndView handleNotFound(){
+
+        ModelAndView modelAndView = new ModelAndView();
+
+        modelAndView.setViewName("404error"); // matches with our thymeleaf file name
+
+        return modelAndView;
+
+    }
+
 }
