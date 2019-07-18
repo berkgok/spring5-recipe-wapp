@@ -2,6 +2,7 @@ package com.example.recipeapp.services;
 
 import com.example.recipeapp.converters.RecipeCommandToRecipe;
 import com.example.recipeapp.converters.RecipeToRecipeCommand;
+import com.example.recipeapp.exceptions.NotFoundException;
 import com.example.recipeapp.models.Recipe;
 import com.example.recipeapp.repositories.RecipeRepository;
 import org.junit.Before;
@@ -37,8 +38,20 @@ public class RecipeServiceImplTest {
         recipeService = new RecipeServiceImpl(recipeRepository, recipeToRecipeCommand, recipeCommandToRecipe);
     }
 
+    @Test(expected = NotFoundException.class)
+    public void getRecipeByIdTestNotFound() throws Exception {
+
+        Optional<Recipe> recipeOptional = Optional.empty();
+
+        when(recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
+
+        Recipe recipeReturned = recipeService.findById(1L);
+
+        // should go boom
+
+    }
     @Test
-    public void getRecipeByIdTest() throws Exception {
+    public void getRecipeCommandByIdTest() throws Exception {
         Recipe recipe = new Recipe();
         recipe.setId(1L);
         Optional<Recipe> recipeOptional = Optional.of(recipe);
@@ -53,7 +66,7 @@ public class RecipeServiceImplTest {
     }
 
     @Test
-    public void getRecipes() {
+    public void getRecipesTest() {
         // we created dummy recipes set and a recipe, and added the recipe to recipe set
         Recipe recipe = new Recipe();
         HashSet recipesData = new HashSet<>();
@@ -72,7 +85,7 @@ public class RecipeServiceImplTest {
     }
 
     @Test
-    public void deleteById() throws Exception {
+    public void deleteByIdTest() throws Exception {
 
         // given
         Long idToDelete = Long.valueOf(2L);

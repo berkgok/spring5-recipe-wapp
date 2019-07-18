@@ -1,6 +1,7 @@
 package com.example.recipeapp.controllers;
 
 import com.example.recipeapp.commands.RecipeCommand;
+import com.example.recipeapp.exceptions.NotFoundException;
 import com.example.recipeapp.models.Recipe;
 import com.example.recipeapp.services.RecipeService;
 import org.junit.Before;
@@ -26,17 +27,19 @@ public class RecipeControllerTest {
 
     RecipeController controller;
 
+    MockMvc mockMvc;
+
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
 
         controller = new RecipeController(recipeService);
+
+        mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
     }
 
     @Test
     public void testGetRecipe() throws Exception {
-
-        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
 
         Recipe recipe = new Recipe();
         recipe.setId(1L);
@@ -49,10 +52,22 @@ public class RecipeControllerTest {
                 .andExpect(view().name("recipe/show"))
                 .andExpect(model().attributeExists("recipe"));
     }
+
+    @Test
+    public void testGetRecipeNotFound() throws Exception {
+
+        Recipe recipe = new Recipe();
+        recipe.setId(1L);
+
+        when(recipeService.findById(anyLong())).thenThrow(NotFoundException.class);
+
+        mockMvc.perform(get("/recipe/1/show"))
+                .andExpect(status().isNotFound());
+
+    }
+
     @Test
     public void testGetNewRecipeForm() throws Exception {
-
-        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
 
         RecipeCommand command = new RecipeCommand();
 
@@ -64,8 +79,6 @@ public class RecipeControllerTest {
 
     @Test
     public void testPostNewRecipeForm() throws Exception {
-
-        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
 
         RecipeCommand command = new RecipeCommand();
         command.setId(2L);
@@ -84,8 +97,6 @@ public class RecipeControllerTest {
     @Test
     public void testGetUpdateView() throws Exception {
 
-        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
-
         RecipeCommand command = new RecipeCommand();
         command.setId(2L);
 
@@ -99,7 +110,6 @@ public class RecipeControllerTest {
 
     @Test
     public void deleteActionTest() throws Exception {
-        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
 
         mockMvc.perform(get("/recipe/1/delete"))
                 .andExpect(status().is3xxRedirection())

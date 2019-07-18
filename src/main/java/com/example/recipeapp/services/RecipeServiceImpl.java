@@ -3,6 +3,7 @@ package com.example.recipeapp.services;
 import com.example.recipeapp.commands.RecipeCommand;
 import com.example.recipeapp.converters.RecipeCommandToRecipe;
 import com.example.recipeapp.converters.RecipeToRecipeCommand;
+import com.example.recipeapp.exceptions.NotFoundException;
 import com.example.recipeapp.models.Recipe;
 import com.example.recipeapp.repositories.RecipeRepository;
 import org.springframework.stereotype.Service;
@@ -42,7 +43,8 @@ public class RecipeServiceImpl implements RecipeService {
         Optional<Recipe> recipeOptional = recipeRepository.findById(l);
 
         if (!recipeOptional.isPresent()) {
-            throw new RuntimeException("Recipe Not Found!");
+            //throw new RuntimeException("Recipe Not Found!"); we are gonna throw our custom exception
+            throw new NotFoundException("Recipe Not Found");
         }
 
         return recipeOptional.get();
