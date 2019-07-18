@@ -1,12 +1,10 @@
 package com.example.recipeapp.commands;
 
 import com.example.recipeapp.models.Difficulty;
+import org.hibernate.validator.constraints.Range;
 import org.hibernate.validator.constraints.URL;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,13 +16,15 @@ public class RecipeCommand {
     @Size(min = 3, max = 255)
     private String description;
 
-    @Max(999)
+    @Range(min = 1, max = 999)
     private Integer prepTime;
 
+    @NotNull(message = "enter 0 if there is no need to cook")
     @Max(999)
     private Integer cookTime;
 
-    @Min(1)
+    @NotNull
+    @Range(min = 1)
     private Integer servings;
 
     private String source;
