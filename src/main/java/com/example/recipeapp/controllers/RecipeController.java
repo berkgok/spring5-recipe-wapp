@@ -20,6 +20,8 @@ public class RecipeController {
 
     @GetMapping("/recipe/{id}/show") // id variable will be given in runtime by the user
     public String showById(@PathVariable String id, Model model){
+
+
         model.addAttribute("recipe", recipeService.findById(Long.valueOf(id)));
         return "recipe/show";
     }
@@ -55,6 +57,19 @@ public class RecipeController {
         ModelAndView modelAndView = new ModelAndView();
 
         modelAndView.setViewName("404error"); // matches with our thymeleaf file name
+        modelAndView.addObject("exception", exception);
+
+        return modelAndView;
+
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(NumberFormatException.class)
+    public ModelAndView handleNumberFormat(Exception exception){
+
+        ModelAndView modelAndView = new ModelAndView();
+
+        modelAndView.setViewName("400error"); // matches with our thymeleaf file name
         modelAndView.addObject("exception", exception);
 
         return modelAndView;
